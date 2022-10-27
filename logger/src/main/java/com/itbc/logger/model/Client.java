@@ -21,4 +21,6 @@ public class Client {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    private boolean isAdmin;
+
 }

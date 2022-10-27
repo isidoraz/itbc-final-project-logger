@@ -1,4 +1,5 @@
 package com.itbc.logger.model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ public class Log {
     private Long logId;
     private String message;
     private LogType logType;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdDate;
 
     @ManyToOne

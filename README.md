@@ -7,7 +7,7 @@
 **Logger** is an application that allows its registered users to store information important to them and retrieve it later using various filters.
 ---
 
-### User 
+## User 
 1. User can register 
 - username, email, password 
 2. User can retrieve his "key" using 

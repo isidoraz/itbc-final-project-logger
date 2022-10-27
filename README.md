@@ -1,1 +1,3 @@
-# itbc-final-project-logger
+# Logger Application  
+### ITBootcamp Final Project 
+---

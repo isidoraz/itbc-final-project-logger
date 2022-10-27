@@ -4,10 +4,12 @@ import com.itbc.logger.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    public Client findByName(String account);
+    Optional<Client> findByUsername(String username);
+    Optional<Client> findByEmail(String email);
 
-    public Client findByPassword(String password);
 }

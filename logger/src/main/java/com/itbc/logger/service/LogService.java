@@ -1,13 +1,9 @@
 package com.itbc.logger.service;
 
-import com.itbc.logger.repository.LogRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.itbc.logger.model.Log;
 
-@Service
-public class LogService {
+public interface LogService {
 
-    @Autowired
-    LogRepository logRepository;
+    public Log save(Log log);
 
 }

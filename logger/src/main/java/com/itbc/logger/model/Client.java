@@ -1,11 +1,5 @@
 package com.itbc.logger.model;
-
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import javax.persistence.*;
 
 @Getter
@@ -18,9 +12,13 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
     private String username;
     private String password;
     private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
 }

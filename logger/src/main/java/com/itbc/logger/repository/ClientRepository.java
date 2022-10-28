@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
+    // optional - to avoid null pointer exception error
     Optional<Client> findByUsername(String username);
     Optional<Client> findByEmail(String email);
 

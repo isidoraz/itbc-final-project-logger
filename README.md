@@ -24,18 +24,19 @@ Project is created with:
 
 *User*
 1. User can register 
-  - username, email, password 
+     - username, email, password 
 2. User can retrieve his "key" using 
-  - username, email, password 
+     - username, email, password 
 3. User can type log 
-  - message 
-  - logType (ERROR,WARNING,INFO) 
-  - createdDate 
+     - message 
+     - logType (ERROR,WARNING,INFO) 
+     - createdDate 
 4. User can to search logs 
-  - By time (from - to) 
-  - By the text found in the log message 
-  - By log type (ERROR,WARNING,INFO) 
-  - Or any combination
+     - By time (from - to) 
+     - By the text found in the log message 
+     - By log type (ERROR,WARNING,INFO) 
+     - Or any combination
+  ---
 
 *Admin*
 1. There is an admin account (or admin key) 

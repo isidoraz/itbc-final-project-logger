@@ -15,4 +15,6 @@ public interface ClientService {
    public List<Client> findAll();
 
    public Optional<Client> findById(Long id);
+
+   List<Client> findByIsAdmin(boolean isAdmin);
 }

@@ -17,6 +17,7 @@ public class Client {
     private String password;
     private String email;
 
+    // one client can have many logs
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

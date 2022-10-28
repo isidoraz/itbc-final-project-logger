@@ -27,14 +27,16 @@ public class LogController {
     @Autowired
     LogService logService;
 
+    // HTTP method for creating logs
+    // Authorization - token : username
     @PostMapping("/create")
     public ResponseEntity<LogDto> create(@RequestHeader("Authorization") String token, @Valid @RequestBody LogDto logDto) {
         Optional<Client> optionalClient = clientService.findByUsername(token);
         if (optionalClient.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);  // 401
         }
         if (logDto.getMessage().length() >= 1024) {
-            return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE);
+            return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE);  // 413
         }
         Log log = new Log();
         log.setMessage(logDto.getMessage());
@@ -53,6 +55,8 @@ public class LogController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+
+    // HTTP method for searching logs
     @GetMapping("/search")
     public ResponseEntity<List<LogDto>> search(@RequestHeader("Authorization") String token,
                                                @RequestParam(required = false) LocalDateTime dateFrom,
@@ -85,6 +89,6 @@ public class LogController {
                 logDto.setLogType(2);
             }
         }
-        return  new ResponseEntity<>(logsDto, HttpStatus.OK);
+        return  new ResponseEntity<>(logsDto, HttpStatus.OK); // 200
     }
 }

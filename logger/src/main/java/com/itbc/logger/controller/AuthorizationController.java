@@ -24,39 +24,47 @@ public class AuthorizationController {
     @Autowired
     private LogService logService;
 
+
+    // HTTP method for registering users
     @PostMapping("/register")
     public ResponseEntity<ClientDto> registerClient(@Valid @RequestBody ClientDto clientDto) {
         if (clientService.findByUsername(clientDto.getUsername()).isPresent() || clientService.findByEmail(clientDto.getEmail()).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);  // 409
         }
+        // clientDto manually turn to new Client object
         Client client = new Client();
         client.setEmail(clientDto.getEmail());
         client.setUsername(clientDto.getUsername());
         client.setPassword(clientDto.getPassword());
+        // admin set to false, because admin is already in DB, so everyone registered are regular users, not admin users
         client.setAdmin(false);
         clientService.save(client);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);  // 201
     }
 
+    // HTTP method for login
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto){
         Optional<Client> clientOptional = clientService.findByUsername(loginDto.getAccount());
         if (clientOptional.isEmpty() || !clientOptional.get().getPassword().equals(loginDto.getPassword())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 400
         }
+        // username set as token
         TokenDto tokenDto = new TokenDto();
         tokenDto.setToken(clientOptional.get().getUsername());
-        return new ResponseEntity<>(tokenDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(tokenDto, HttpStatus.CREATED); // 200
     }
 
+
+    // HTTP method for getting all clients via admin token-username
     @GetMapping
     public ResponseEntity<List<ClientSearchDto>> getAllClients(@RequestHeader("Authorization") String token) {
         Optional<Client> clientOptional = clientService.findByUsername(token);
         if (clientOptional.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);  // 403
         }
         if (!clientOptional.get().isAdmin()) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);  // 401
         }
         List<Client> allClients = clientService.findAll();
         List<ClientSearchDto> clientSearchDtos = new ArrayList<>();
@@ -66,24 +74,26 @@ public class AuthorizationController {
             clientSearchDto.setEmail(client.getEmail());
             clientSearchDto.setUsername(client.getUsername());
             clientSearchDto.setLogCount(logService.countByClient(client));
+            clientSearchDtos.add(clientSearchDto);
         }
-        return new ResponseEntity<>(clientSearchDtos, HttpStatus.OK);
+        return new ResponseEntity<>(clientSearchDtos, HttpStatus.OK); // 200
     }
 
+    // HTTP method for changing client password
     @PatchMapping("/{clientId}/reset-password")
     public ResponseEntity changePassword(@RequestHeader("Authorization") String token,
                                          @PathVariable long clientId,
                                          @Valid @RequestBody PasswordChangeDto passwordChangeDto) {
         Optional<Client> optionalClient = clientService.findByUsername(token);
         if (optionalClient.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);  // 403
         }
         if (!optionalClient.get().isAdmin()) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);  // 401
         }
         Optional<Client> optionalClientPassChange = clientService.findById(clientId);
         optionalClientPassChange.get().setPassword(passwordChangeDto.getPassword());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // 204
     }
 
 

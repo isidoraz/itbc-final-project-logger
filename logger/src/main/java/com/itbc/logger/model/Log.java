@@ -19,6 +19,7 @@ public class Log {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdDate;
 
+    // one client can have many logs
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

@@ -22,7 +22,7 @@ Project is created with:
 
 **Project Entities:**
 
-<span style="color:red">User</span>
+*User*
 1. User can register 
   - username, email, password 
 2. User can retrieve his "key" using 
